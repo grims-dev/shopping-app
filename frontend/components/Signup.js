@@ -40,7 +40,7 @@ class Signup extends Component {
                         this.setState({ name: '', email: '', password: '' });
                     }}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <h2>Sign Up for an Account</h2>
+                            <h2>Sign up for an account</h2>
                             <Error error={error} />
                             <label htmlFor="email">
                                 Email
