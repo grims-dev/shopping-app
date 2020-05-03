@@ -29,6 +29,28 @@ const Query = {
         // query all the users
         return ctx.db.query.users({}, info);
     },
+
+    async order(parent, args, ctx, info) {
+        // make sure they are logged in
+        if (!ctx.request.userId) {
+            throw new Error(`You aren't logged in!`);
+        }
+
+        // query current order
+        const order = await ctx.db.query.order({
+            where: { id: args.id },
+        }, info);
+
+        // check if they have permissions to view this order
+        const ownsOrder = order.user.id === ctx.request.userId;
+        const hasPermissionToSeeOrder = ctx.request.user.permissions.includes('ADMIN');
+        if (!ownsOrder || !hasPermissionToSeeOrder) {
+            throw new Error(`You don't have permission to view this. If this is your order, please log in.`);
+        }
+
+        // return the order
+        return order;
+    }
 };
 
 module.exports = Query;
