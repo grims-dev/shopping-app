@@ -42,7 +42,7 @@ class Reset extends Component {
             refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
                 {(reset, { error, loading, called }) => (
-                    <Form method="post" onSubmit={async e => {
+                    <Form method="post" data-test="form" onSubmit={async e => {
                         e.preventDefault();
                         await reset();
                         this.setState({ password: '' , confirmPassword: '' });
