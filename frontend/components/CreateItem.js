@@ -28,11 +28,11 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
     state = {
-        title: 'Cool Shoes!',
-        description: 'woo ow wo wo wow o ',
-        image: null,
-        largeImage: null,
-        price: 140,
+        title: '',
+        description: '',
+        image: '',
+        largeImage: '',
+        price: 0,
     };
 
     // update the state when user makes an input
@@ -43,7 +43,6 @@ class CreateItem extends Component {
     }
 
     uploadFile = async e => {
-        console.log('uploading file');
         const files = e.target.files;
         const data = new FormData();
         data.append('file', files[0]);
@@ -55,7 +54,6 @@ class CreateItem extends Component {
         });
 
         const file = await res.json();
-        console.log(file);
         this.setState({
             image: file.secure_url,
             largeImage: file.eager[0].secure_url
@@ -67,19 +65,23 @@ class CreateItem extends Component {
         <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
             {(createItem, { loading, error }) => (
             // wrap form in implicit return
-            <Form onSubmit={async e => {
-                // stop form submit
-                e.preventDefault();
+            <Form
+                data-test="form"
+                onSubmit={async e => {
+                    // stop the form from submitting
+                    e.preventDefault();
 
-                // call mutation
-                const res = await createItem();
-                
-                // redirect to the item page
-                Router.push({
+                    // call the mutation
+                    const res = await createItem();
+
+                    // change them to the single item page
+                    console.log(res);
+                    Router.push({
                     pathname: '/item',
                     query: { id: res.data.createItem.id },
-                })
-            }}>
+                    });
+                }}
+            >
                 <Error error={error} />
                 <fieldset disabled={loading} aria-busy={loading}>
                     <label htmlFor="file">
