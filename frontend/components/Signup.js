@@ -17,9 +17,9 @@ const SIGNUP_MUTATION = gql`
 
 class Signup extends Component {
     state = {
+        email: '',
         name: '',
         password: '',
-        email: '',
     }
 
     saveToState = (e) => {
@@ -34,11 +34,14 @@ class Signup extends Component {
             refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
                 {(signup, { error, loading }) => (
-                    <Form method="post" onSubmit={async e => {
-                        e.preventDefault();
-                        await signup();
-                        this.setState({ name: '', email: '', password: '' });
-                    }}>
+                    <Form
+                        method="post"
+                        onSubmit={async e => {
+                            e.preventDefault();
+                            await signup();
+                            this.setState({ name: '', email: '', password: '' });
+                        }}
+                    >
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2>Sign up for an account</h2>
                             <Error error={error} />
@@ -83,3 +86,4 @@ class Signup extends Component {
 }
 
 export default Signup;
+export { SIGNUP_MUTATION };
