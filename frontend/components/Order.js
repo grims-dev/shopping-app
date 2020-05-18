@@ -55,7 +55,7 @@ class Order extends React.Component {
                             </p>
                             <p>
                                 <span>Date:</span>
-                                <span>{format(order.createdAt, 'MMMM d, YYYY h:mm a')}</span>
+                                <span>{format(order.createdAt, 'MMMM d, YYYY h:mm a', { awareOfUnicodeTokens: true })}</span>
                             </p>
                             <p>
                                 <span>Order Total:</span>
@@ -88,3 +88,4 @@ class Order extends React.Component {
 }
 
 export default Order;
+export { SINGLE_ORDER_QUERY };
